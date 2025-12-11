@@ -2,6 +2,8 @@
 
 **Project Lupin** is a Local, Multi-Modal Agent Workflow System in Unity powered by Microsoft Agents and Ollama.
 
+[![Agent Framework Unity](https://img.youtube.com/vi/NMB4n3kJn70/0.jpg)](https://www.youtube.com/watch?v=NMB4n3kJn70)
+
 ## Overview
 
 **Project Lupin** is an AI Avatar project that implements the **Microsoft Agent Framework** within Unity. It orchestrates a complex, multi-agent workflow entirely on the local device, ensuring privacy and zero-latency inference.
@@ -64,7 +66,7 @@ The system processes user input through the following stages:
   - **Chunk Size**: 500 characters
   - **Overlap**: 100 characters
 
-### 3. Audio Stack
+### 3. Audio Processing
 - **Input**: Whisper Small model handles voice command transcription.
 - **Output**: Kokoro 82M (ONNX) combined with `espeak-ng` generates phonemes and audio for the agent's voice.
 
@@ -100,12 +102,6 @@ ollama pull qwen3-embedding:4b
 - [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.ai.inference@latest/)
 - [eSpeak NG](https://github.com/espeak-ng/espeak-ng)
 - [Text: Project Gutenberg - Arsène Lupin](https://www.gutenberg.org/files/6133/6133-h/6133-h.htm)
-
-## Demo
-
-Experience **Project Lupin** in action! Check out our demo showcasing the full agent workflow:
-
-[![Agent Framework Unity](https://img.youtube.com/vi/NMB4n3kJn70/0.jpg)](https://www.youtube.com/watch?v=NMB4n3kJn70)
 
 ## License
 
