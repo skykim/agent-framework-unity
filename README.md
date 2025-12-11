@@ -22,6 +22,7 @@ This project demonstrates a "Fan-Out/Fan-In" architecture where multiple special
 
 - **Unity**: `6000.2.10f1`
 - **Unity Sentis**: `2.4.1`
+- **Microsoft Agent Framework**: `1.0.0-preview`
 - **Ollama**: `qwen2.5:3b`, `qwen3-vl:2b`, `qwen3-embedding:4b`
 - **External Tools**: `espeak-ng` (for phoneme generation)
 
@@ -89,14 +90,14 @@ ollama pull qwen3-embedding:4b
 ### 3. Run the Scene
 - Open `/Assets/Scenes/LupinScene.unity` in the Unity Editor.
 - Press **Play**.
-- Toggle **Webcam** or **Retriever** (RAG) checkboxes to dynamically enable or disable specific agents.
+- Toggle **Text Retriever** or **Visual Cue** checkboxes to dynamically enable or disable specific agents.
 - Interact by typing directly into the input field, or hold the `]` (Right Bracket) key to issue commands via STT.
 
 ## Links
 
-- [Microsoft Agents GitHub](https://github.com/microsoft/agents)
+- [Microsoft Agent Framework GitHub](https://github.com/microsoft/agent-framework)
 - [Ollama](https://ollama.com/)
-- [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.sentis@latest)
+- [Unity Sentis](https://docs.unity3d.com/Packages/com.unity.ai.inference@latest/)
 - [eSpeak NG](https://github.com/espeak-ng/espeak-ng)
 - [Text: Project Gutenberg - Arsène Lupin](https://www.gutenberg.org/files/6133/6133-h/6133-h.htm)
 
