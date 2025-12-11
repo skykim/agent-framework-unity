@@ -87,10 +87,10 @@ ollama pull qwen3-embedding:4b
   *(Ensure the folder structure matches exactly to avoid missing reference errors.)*
 
 ### 3. Run the Scene
-- Open `/Assets/Scenes/MainScene.unity` in the Unity Editor.
+- Open `/Assets/Scenes/LupinScene.unity` in the Unity Editor.
 - Press **Play**.
 - Toggle **Webcam** or **Retriever** (RAG) checkboxes to dynamically enable or disable specific agents.
-- Hold the `]` (Right Bracket) key to speak, or type directly into the input field.
+- Interact by typing directly into the input field, or hold the `]` (Right Bracket) key to issue commands via STT.
 
 ## Links
 
