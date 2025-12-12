@@ -1,6 +1,6 @@
 # agent-framework-unity
 
-**Project Lupin** is a Local, Multi-Modal Agent Workflow System in Unity powered by Microsoft Agents and Ollama.
+**Project Lupin** is a Local, Multi-Modal Agent Workflow System in Unity powered by Microsoft Agent Framework and Ollama.
 
 [![Agent Framework Unity](https://img.youtube.com/vi/NMB4n3kJn70/0.jpg)](https://www.youtube.com/watch?v=NMB4n3kJn70)
 
