@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class StandardBlendshapeAdapter : BlendshapeAdapter
+public class CustomBlendshapeAdapter_EggMan : BlendshapeAdapter
 {
     [Header("Target Settings")]
     [SerializeField] private List<SkinnedMeshRenderer> m_TargetMeshes = new List<SkinnedMeshRenderer>();

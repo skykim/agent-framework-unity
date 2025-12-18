@@ -200,7 +200,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.6509434, g: 0.38381097, b: 0.38381097, a: 0}
+  m_BackGroundColor: {r: 0.33828765, g: 0.37272704, b: 0.3962264, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -223,7 +223,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 20
+  field of view: 14
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 115627890}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9992291, z: 0.03925978, w: 0}
-  m_LocalPosition: {x: 0, y: 1.79, z: 1}
+  m_LocalPosition: {x: 0, y: 1.78, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -544,7 +544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -777.3, y: 160}
+  m_AnchoredPosition: {x: -898.8, y: 160}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &312882964
@@ -630,7 +630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -550, y: 160}
+  m_AnchoredPosition: {x: -671.5, y: 160}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &402796580
@@ -724,7 +724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -757,13 +757,13 @@ Light:
   m_InnerSpotAngle: 1.7
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.6
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.05
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -813,13 +813,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434712440}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.22750118, z: -0, w: -0.9737779}
-  m_LocalPosition: {x: 1.59, y: 2, z: -2.06}
+  m_LocalRotation: {x: 0, y: 0.21643986, z: -0, w: -0.97629595}
+  m_LocalPosition: {x: 1, y: 1.8, z: -2.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 333.7, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 335, z: 0}
 --- !u!1 &447613398
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,7 +1348,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_KeepTextSelectionVisible: 0
@@ -1438,11 +1438,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1052847388}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e85d8decfe543298ab2e2345c270e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f3357a5a96d544878fa3b92592d4032, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StandardBlendshapeAdapter
+  m_EditorClassIdentifier: Assembly-CSharp::CustomBlendshapeAdapter_EggMan
   m_TargetMeshes:
   - {fileID: 1247402120}
+  - {fileID: 1247402121}
   m_BlendShapeScale: 100
 --- !u!1 &1062127326
 GameObject:
@@ -1475,7 +1476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 0
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -1502,19 +1503,19 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 30
+  m_Intensity: 45
   m_Range: 5
   m_SpotAngle: 49.9
   m_InnerSpotAngle: 1.7
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.6
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.05
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -1711,6 +1712,11 @@ Transform:
 --- !u!137 &1247402120 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -4396642182433536433, guid: 0a8e593813f3f7a489a60fca13f3344d, type: 3}
+  m_PrefabInstance: {fileID: 1247402118}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &1247402121 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1909878425617812780, guid: 0a8e593813f3f7a489a60fca13f3344d, type: 3}
   m_PrefabInstance: {fileID: 1247402118}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1255097923
@@ -1935,7 +1941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unity.InferenceEngine.Samples.TTS.KokoroEspeakManager
   modelAsset: {fileID: 5022602860645237092, guid: 8979d7c3491bb491d885409d53bf9525, type: 3}
-  voiceAsset: {fileID: 4900000, guid: 4cfc5dec475024c3ea0d8e905f8a8646, type: 3}
+  voiceAsset: {fileID: 4900000, guid: 59ee6f642b67b44cc91d20f091e9da1c, type: 3}
   speed: 1
   langCode: en
 --- !u!1 &1405341127
@@ -2365,8 +2371,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
-  m_sharedMaterial: {fileID: 6222201103577428184, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
+  m_sharedMaterial: {fileID: 3152101737259209159, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2501,8 +2507,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
-  m_sharedMaterial: {fileID: 6222201103577428184, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
+  m_sharedMaterial: {fileID: 3152101737259209159, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2688,7 +2694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 2
+  m_AdditionalLightsShadowResolutionTier: 1
   m_CustomShadowLayers: 0
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
@@ -2715,19 +2721,19 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 10
+  m_Intensity: 15
   m_Range: 5
   m_SpotAngle: 49.9
   m_InnerSpotAngle: 1.7
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.6
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.05
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -2855,6 +2861,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d5e68fe843a2407ca15e16f4ee83499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PromptRewriteAgent
+--- !u!1 &2113251380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2113251381}
+  m_Layer: 0
+  m_Name: -------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2113251381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113251380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2116327803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,8 +2951,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
-  m_sharedMaterial: {fileID: 6222201103577428184, guid: 895b4b3454323439b9c4f9479870a929, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
+  m_sharedMaterial: {fileID: 3152101737259209159, guid: 36efa97eeb6614af1b9f588e82574e55, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3079,8 +3116,9 @@ SceneRoots:
   - {fileID: 1432623989}
   - {fileID: 833642641}
   - {fileID: 454008022}
-  - {fileID: 1052847389}
   - {fileID: 685863128}
+  - {fileID: 1052847389}
+  - {fileID: 2113251381}
   - {fileID: 456396997}
   - {fileID: 1588673046}
   - {fileID: 447613399}

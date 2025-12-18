@@ -1,33 +1,30 @@
 using UnityEngine;
-using Microsoft.Extensions.VectorData;
-using Microsoft.SemanticKernel.Connectors.InMemory;
+using Microsoft.Extensions.AI;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System;
 using UnityEditor;
-using Microsoft.Extensions.AI;
 using OllamaSharp;
 
 public static class VectorDBUtil
 {
     private static string OllamaUrl = "http://localhost:11434";
     private static string OllamaEmbeddingModelName = "qwen3-embedding:4b";
+    
     private const int DEFAULT_TOP_K = 10;
-    private const float DEFAULT_THRESHOLD = 0.0f;
+    private const float DEFAULT_THRESHOLD = 0.3f;
 
-    private const string collectionName = "ddd_collection";
-    private const string SAVE_FILENAME = "ddd_db.bin";
+    private const string SAVE_FILENAME = "ddd_db.json";
     private const string TEXT_FOLDERNAME = "text";
 
     private static string SavePath => Path.Combine(Application.streamingAssetsPath, SAVE_FILENAME);
     private static string LoadTextPath => Path.Combine(Application.streamingAssetsPath, TEXT_FOLDERNAME);
 
-    private static InMemoryVectorStore vectorStore;
     private static IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator;
-
-    private static VectorStoreCollection<int, Document.DocumentChunk> collection;
+    
+    private static List<Document.DocumentChunk> internalMemoryDb = new List<Document.DocumentChunk>();
 
     private static bool isInitialized = false;
 
@@ -39,28 +36,20 @@ public static class VectorDBUtil
     }
 #endif
 
-    private static void InitializeVectorDatabase()
+    private static void Initialize()
     {
         if (isInitialized) return;
 
-        if (!Directory.Exists(Application.streamingAssetsPath))
-        {
-            Directory.CreateDirectory(Application.streamingAssetsPath);
-        }
-
-        vectorStore = new InMemoryVectorStore();
-
         var ollamaClient = new OllamaApiClient(new Uri(OllamaUrl), OllamaEmbeddingModelName);
         embeddingGenerator = ollamaClient;
-        
+
         isInitialized = true;
     }
     
     public static async Task Save()
     {
-        InitializeVectorDatabase();
-        collection = await InitializeCollection();
-        
+        Initialize();
+
         if (!Directory.Exists(LoadTextPath))
         {
             Debug.LogError($"[VectorDBUtil] Text directory not found: {LoadTextPath}");
@@ -69,118 +58,131 @@ public static class VectorDBUtil
 
         var documents = await Document.ProcessTextFilesToDocumentChunks(LoadTextPath);
 
-        if (documents.Count == 0)
+        if (documents == null || documents.Count == 0)
         {
-            Debug.LogWarning("[VectorDBUtil] No text files found or processed in the specified directory");
+            Debug.LogWarning("[VectorDBUtil] No text files found or processed.");
             return;
         }
 
         await GenerateEmbeddings(documents);
+
+        internalMemoryDb = documents;
+
         await Document.SaveDocumentsToFile(documents, SavePath);
 
-        Debug.Log($"[VectorDBUtil] Data generation completed successfully. Processed {documents.Count} chunks.");
+        Debug.Log($"[VectorDBUtil] Generated & Saved {documents.Count} chunks to {SavePath}");
     }
 
     public static async Task Load()
     {
-        InitializeVectorDatabase();
-        collection = await InitializeCollection();
+        Initialize();
         
         if (!File.Exists(SavePath))
         {
-            Debug.LogWarning($"[VectorDBUtil] Save file not found at: {SavePath}");
+            Debug.LogWarning($"[VectorDBUtil] DB file not found at: {SavePath}");
             return;
         }
 
-        var documents = await Document.LoadDocumentsFromFile(SavePath);
+        var loadedDocs = await Document.LoadDocumentsFromFile(SavePath);
         
-        if (documents != null && documents.Any())
+        if (loadedDocs != null)
         {
-            var upsertTasks = documents.Select(doc => collection.UpsertAsync(doc));
-            await Task.WhenAll(upsertTasks);
-            Debug.Log("[VectorDBUtil] Vector database loaded successfully");
-        }
-        else
-        {
-            Debug.LogWarning("[VectorDBUtil] No documents found in the saved file");
+            internalMemoryDb = loadedDocs;
+            Debug.Log($"[VectorDBUtil] Database loaded. Total chunks: {internalMemoryDb.Count}");
         }
     }
 
     public static async Task<List<string>> SearchOnVectorDB(string query, int topK = DEFAULT_TOP_K, float threshold = DEFAULT_THRESHOLD)
     {
-        InitializeVectorDatabase();
+        Initialize();
 
-        if (collection == null)
+        if (internalMemoryDb.Count == 0)
         {
-            Debug.Log("[VectorDBUtil] Database not loaded. Attempting to auto-load...");
             await Load();
-
-            if (collection == null)
+            if (internalMemoryDb.Count == 0)
             {
-                Debug.LogError("[VectorDBUtil] Database load failed during search.");
+                Debug.LogError("[VectorDBUtil] Database is empty even after load attempt.");
                 return new List<string>();
             }
         }
 
         var embeddingResult = await embeddingGenerator.GenerateAsync(query);
+        var queryVector = embeddingResult.Vector;
 
-        var searchVector = embeddingResult.Vector;
-        var searchResults = collection.SearchAsync(searchVector, topK);
-
+        var searchResults = internalMemoryDb
+            .Select(doc => new 
+            { 
+                Doc = doc, 
+                Score = ComputeCosineSimilarity(queryVector, doc.ContentEmbedding) 
+            })
+            .Where(x => x.Score >= threshold)
+            .OrderByDescending(x => x.Score)
+            .Take(topK)
+            .ToList();
 
         List<string> results = new List<string>();
-        int contentIndex = 1;
         
-        await foreach (var result in searchResults)
+        foreach (var item in searchResults)
         {
-            if (result.Score >= threshold)
-            {
-                results.Add($"Context{contentIndex++} (prob:{result.Score:F3}): {result.Record.Content}");
-            }
+            results.Add(item.Doc.Content);
         }
-
-        Debug.Log($"[VectorDBUtil] Search completed. Found {results.Count} results:\n {results}");
 
         return results;
     }
 
-    private static async Task<VectorStoreCollection<int, Document.DocumentChunk>> InitializeCollection()
+    private static async Task GenerateEmbeddings(List<Document.DocumentChunk> documents)
     {
-        var collection = vectorStore.GetCollection<int, Document.DocumentChunk>(collectionName);
-        await collection.EnsureCollectionExistsAsync();
-        return collection;
-    }
+        const int batchSize = 10;
+        int processed = 0;
 
-    private static async Task GenerateEmbeddings(IEnumerable<Document.DocumentChunk> documents)
-    {
-        var documentList = documents.ToList();
-        const int batchSize = 50;
-        
-        for (int i = 0; i < documentList.Count; i += batchSize)
+        for (int i = 0; i < documents.Count; i += batchSize)
         {
-            var batch = documentList.Skip(i).Take(batchSize);
+            var batch = documents.Skip(i).Take(batchSize).ToList();
             
-            var embeddingTasks = batch.Select(doc => Task.Run(async () =>
+            foreach (var doc in batch)
             {
-                try 
+                try
                 {
-                    var embeddingResult = await embeddingGenerator.GenerateAsync(doc.Content);
-                    doc.ContentEmbedding = embeddingResult.Vector;
-                    return doc;
+                    var result = await embeddingGenerator.GenerateAsync(doc.Content);
+                    doc.ContentEmbedding = result.Vector;
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"[VectorDBUtil] Failed to create embeddings: {ex.Message}");
-                    return null;
+                    Debug.LogError($"[VectorDBUtil] Embedding Error: {ex.Message}");
                 }
-            }));
+            }
             
-            var completedDocs = (await Task.WhenAll(embeddingTasks)).Where(d => d != null);
-            
-            var upsertTasks = completedDocs.Select(doc => collection.UpsertAsync(doc));
-            await Task.WhenAll(upsertTasks);
-                        
-            Debug.Log($"[VectorDBUtil] Processed documents: {i + batch.Count()}/{documentList.Count}");
+            processed += batch.Count;
+            #if UNITY_EDITOR
+            EditorUtility.DisplayProgressBar("Generating Embeddings", $"Processing {processed}/{documents.Count}", (float)processed / documents.Count);
+            #endif
         }
+        
+        #if UNITY_EDITOR
+        EditorUtility.ClearProgressBar();
+        #endif
+    }
+
+    private static float ComputeCosineSimilarity(ReadOnlyMemory<float> vecA, ReadOnlyMemory<float> vecB)
+    {
+        var spanA = vecA.Span;
+        var spanB = vecB.Span;
+
+        if (spanA.Length != spanB.Length) return 0.0f;
+
+        float dotProduct = 0.0f;
+        float magnitudeA = 0.0f;
+        float magnitudeB = 0.0f;
+
+        for (int i = 0; i < spanA.Length; i++)
+        {
+            dotProduct += spanA[i] * spanB[i];
+            magnitudeA += spanA[i] * spanA[i];
+            magnitudeB += spanB[i] * spanB[i];
+        }
+
+        if (magnitudeA == 0 || magnitudeB == 0) return 0.0f;
+
+        return dotProduct / (float)(Math.Sqrt(magnitudeA) * Math.Sqrt(magnitudeB));
     }
 }

@@ -10,7 +10,7 @@ public class PromptRewriteAgent : MonoBehaviour
 {
     private static string OllamaUrl = "http://localhost:11434";
     private static string OllamaModelName = "qwen2.5:3b"; 
-    private const string REWRITE_INSTRUCTION = "You are an expert Prompt Engineer. Your task is to refine the user's input into clear, grammatically correct English without any quotes or explanations.";
+    private const string REWRITE_INSTRUCTION = "ou are an expert Prompt Engineer. Your task is to refine the user's input into clear, grammatically correct language matching the original input without any quotes or explanations.";
 
     private ChatClientAgent _agent;
     public bool IsInitialized { get; private set; } = false;
